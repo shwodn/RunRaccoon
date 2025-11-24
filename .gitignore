@@ -75,6 +75,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # 에셋을 모아둘 파일 추적에서 제외
-Assets/Resources/StoreAssets/*.js
+Assets/Resources/StoreAssets/**
 # meta 파일들은 추적한다.
-!Assets/Resources/StoreAssets.meta
+!Assets/Resources/StoreAssets/**/*.meta
