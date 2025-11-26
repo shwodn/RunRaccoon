@@ -27,7 +27,7 @@ public class PlayerModel : MonoBehaviour
     public event Action<int, StatLevel> OncurrentHpChanged;
     public event Action<int> OnCurrentCoinChanged;
     public event Action<int> OnCurrentCheeseChanged;
-    public event Action OnDead;
+    public event Action OnEnd;
 
     // 멤버 변화 내용을 알릴 매서드
     public void ChangeHp(int damage)
@@ -35,7 +35,7 @@ public class PlayerModel : MonoBehaviour
         currentHp += damage;
         OncurrentHpChanged?.Invoke(currentHp, maxHPLevel);
         // 체력이 1보다 작을 경우 플레이어가 죽었을 때 실행할 매서드들 실행
-        if(currentHp < 1) { OnDead?.Invoke(); }
+        if(currentHp < 1) { OnEnd?.Invoke(); }
     }
 
     public void GetCoin()
@@ -60,15 +60,16 @@ public class PlayerModel : MonoBehaviour
         switch (cheeseLevel)
         {
             case StatLevel.Level1:
-                currentCoin++;
+                currentCheese++;
                 break;
             case StatLevel.Level2:
-                currentCoin += 3;
+                currentCheese += 3;
                 break;
             case StatLevel.Level3:
-                currentCoin += 5;
+                currentCheese += 5;
                 break;
         }
+        Debug.Log(currentCheese);
         OnCurrentCheeseChanged?.Invoke(currentCheese);
     }
 

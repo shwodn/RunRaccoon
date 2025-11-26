@@ -10,6 +10,8 @@ TagManager:
   - DeathPoint
   - TileStartPoint
   - TileEndPoint
+  - Ground
+  - Exception
   layers:
   - Default
   - TransparentFX

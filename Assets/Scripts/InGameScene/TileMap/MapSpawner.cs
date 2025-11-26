@@ -2,9 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class MapSpawner : MonoBehaviour
 {
+    [SerializeField] private UIManager uiManager;
+
     [SerializeField] private GameObject inputTileMapSpawnPoint;
     [SerializeField] private TilemapController[] tilemapPrefabs;
     [SerializeField] private float delay;
@@ -17,12 +20,20 @@ public class MapSpawner : MonoBehaviour
     private Queue<TilemapController> tempInstance = new Queue<TilemapController>();
     private ObjectPool<TilemapController> tilemapPool;
 
+    public event Action OnEnd;
+
     public Queue<TilemapController> TempInstance { get { return tempInstance; } }
     public ObjectPool<TilemapController> TilemapPool { get { return tilemapPool; } }
 
     public GameObject InputTileMapSpawnPoint { get { return inputTileMapSpawnPoint; } }
 
     private void OnEnable() { Init(); }
+
+    private void OnDestroy()
+    {
+        // 구독 해지
+        OnEnd -= uiManager.ResultUI;
+    }
 
     private void Start()
     {
@@ -35,23 +46,19 @@ public class MapSpawner : MonoBehaviour
         Debug.Log("풀 초기화");
         tilemapPool = new ObjectPool<TilemapController>(tilemapPrefabs, tilemapPrefabs.Length, false);
         spawnDelay = new WaitForSeconds(delay);
+
+        // 구독 설정
+        OnEnd += uiManager.ResultUI;
     }
 
     public void SpawnTilemap()
     {
-        // 풀이 끝났을 경우 실행할 코드
-        if (tilemapPool == null)
-        {
-            Debug.Log("스테이지가 끝났습니다.");
-        }
+        
 
         // 타일맵 생성
         TilemapController tilemap = tilemapPool.Spawn();
         // 타일맵 설정 처음인 경우에만 카메라에 보이는 상태로 소환
-        if (isFirstSpawn) 
-        {
-            tilemap.SetUpFirst();
-        }
+        if (isFirstSpawn) { tilemap.SetUpFirst(); }
         else { tilemap.SetUp(inputTileMapSpawnPoint); }
         // 정보 참조를 위해 임시 객체에 대입
         tempInstance.Enqueue(tilemap);
@@ -68,6 +75,7 @@ public class MapSpawner : MonoBehaviour
         
         while (isSpawning)
         {
+
             // 풀에 객체가 존재하면 반복
             if (tilemapPool.Pool.Any())
             {
@@ -86,6 +94,8 @@ public class MapSpawner : MonoBehaviour
             else
             {
                 isSpawning = false;
+                Debug.Log("스테이지가 끝났습니다.");
+                OnEnd?.Invoke();
                 yield break;
             }
 

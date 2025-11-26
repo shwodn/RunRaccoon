@@ -21,9 +21,10 @@ public class PlayerController : MonoBehaviour
         playerModel.OncurrentHpChanged += playerView1.UpdateCurrentHpUI;
         playerModel.OnCurrentCoinChanged += playerView1.UpdateCoinUI;
         playerModel.OnCurrentCheeseChanged += playerView1.UpdateCheeseUI;
+
         playerModel.OnCurrentCoinChanged += playerView2.UpdateCoinUI;
         playerModel.OnCurrentCheeseChanged += playerView2.UpdateCheeseUI;
-        playerModel.OnDead += uiManager.ResultUI;
+        playerModel.OnEnd += uiManager.ResultUI;
         
         // 인풋 구독 설정
         playerInput.actions["Jump"].started += OnJump;
@@ -42,12 +43,34 @@ public class PlayerController : MonoBehaviour
         playerView1.UpdateCheeseUI(playerModel.CurrentCheese);
     }
 
+    // 물리 충돌 발생하면 실행할 코드들
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // 코인일 경우 코인 저장하는 매서드 발동
+        if (collision.CompareTag("Coin")) { playerModel.GetCoin(); }
+        // 치즈일 경우 점수 저장하는 매서드 발동
+        else if (collision.CompareTag("Cheese")) { playerModel.GetCheese(); }
+        // 장애물일 경우 체력 1씩 감소
+        else if (collision.CompareTag("Obstacle")) { playerModel.ChangeHp(-1); }
+        // 낙사 지점일 경우 즉사
+        else if (collision.CompareTag("DeathPoint")) { playerModel.ChangeHp(-10); }
+        // 일부러 제외하는 충돌
+        else if (collision.CompareTag("Exception")) return;
+        // 위에 해당 사항 없을 경우 로그 출력
+        else { Debug.Log($"예상치 못한 충돌 발생 : {collision.name}-{collision.tag}"); }
+    }
+
     private void OnDestroy()
     {
         // 각 매서드 별로 구독 해지
         playerModel.OncurrentHpChanged -= playerView1.UpdateCurrentHpUI;
         playerModel.OnCurrentCoinChanged -= playerView1.UpdateCoinUI;
         playerModel.OnCurrentCheeseChanged -= playerView1.UpdateCheeseUI;
+
+        playerModel.OnCurrentCoinChanged -= playerView2.UpdateCoinUI;
+        playerModel.OnCurrentCheeseChanged -= playerView2.UpdateCheeseUI;
+        playerModel.OnEnd -= uiManager.ResultUI;
+
         playerInput.actions["Jump"].started -= OnJump;
         playerInput.actions["Sliding"].started -= OnSliding;
     }
