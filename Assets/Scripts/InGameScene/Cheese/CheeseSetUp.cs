@@ -2,18 +2,17 @@ using UnityEngine;
 
 public class CheeseSetUp : MonoBehaviour
 {
-    [SerializeField] private PlayerModel playerModel;
 
     [SerializeField] private GameObject inputCheese1;
     [SerializeField] private GameObject inputCheese2;
     [SerializeField] private GameObject inputCheese3;
 
-    private void OnEnable()
+    private void Start()
     {
         // 모든 코인 비활성화
         Init();
         // 해당하는 코인만 활성화
-        SetUpCoin(playerModel.CheeseLevel);
+        SetUpCoin(GameManager.Instance.saveData.PlayerToSave.PlayerCheeseLevel);
     }
 
     private void Init()

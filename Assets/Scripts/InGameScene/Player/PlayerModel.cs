@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerModel : MonoBehaviour
 {
+
     // 필요한 멤버 구현
     public enum StatLevel { Level1 = 1, Level2, Level3 };
 
@@ -13,6 +14,8 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private int currentHp = 3;
     private int currentCoin = 0;
     private int currentCheese = 0;
+
+    public static PlayerModel PlayerInstance { get; private set; }
 
     // 프로퍼티 구현
     public StatLevel MaxHPLevel { get { return maxHPLevel; }  set { maxHPLevel = value; } }
@@ -28,6 +31,18 @@ public class PlayerModel : MonoBehaviour
     public event Action<int> OnCurrentCoinChanged;
     public event Action<int> OnCurrentCheeseChanged;
     public event Action OnEnd;
+
+    private void Awake()
+    {
+        // 인스턴스 지정
+        PlayerInstance = this;
+    }
+
+    private void OnDestroy()
+    {
+        //파괴시 인스턴스 널 대입
+        PlayerInstance = null;
+    }
 
     // 멤버 변화 내용을 알릴 매서드
     public void ChangeHp(int damage)
@@ -76,6 +91,11 @@ public class PlayerModel : MonoBehaviour
     // 플레이어 정보 초기화 매서드
     public void InitPlayer()
     {
+        // 게임 매니저로부터 저장된 데이터들 받아오기
+        maxHPLevel = GameManager.Instance.tempHpLevel;
+        coinLevel = GameManager.Instance.tempCoinLevel;
+        cheeseLevel = GameManager.Instance.tempCheeseLevel;
+
         #region 체력 설정
         switch (maxHPLevel)
         {
@@ -95,5 +115,8 @@ public class PlayerModel : MonoBehaviour
         currentCoin = 0;
         currentCheese = 0;
         OnInit?.Invoke();
+        Debug.Log(MaxHPLevel);
+        Debug.Log(coinLevel);
+        Debug.Log(cheeseLevel);
     }
 }

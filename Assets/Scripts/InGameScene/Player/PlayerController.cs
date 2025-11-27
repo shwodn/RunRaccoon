@@ -3,18 +3,24 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+
     [SerializeField] private UIManager uiManager;
     [SerializeField] private PlayerView playerView1;
     [SerializeField] private PlayerView2 playerView2;
+    [SerializeField] private float jumpForce = 5f;
+
     private PlayerModel playerModel;
     private PlayerInput playerInput;
+    private Rigidbody2D rb;
     private float input;
+
 
     private void Awake()
     {
         // 컴포넌트 추가
         playerModel = GetComponent<PlayerModel>();
         playerInput = GetComponent<PlayerInput>();
+        rb = GetComponent<Rigidbody2D>();
 
         // 각 매서드 별로 구독 설정
         playerModel.OnInit += uiManager.UIInit;
@@ -38,7 +44,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         // UI 매서드들 시작시 한 번 호출
-        playerView1.UpdateCurrentHpUI(playerModel.CurrentHp, playerModel.MaxHPLevel);
+        playerView1.UpdateCurrentHpUI(playerModel.CurrentHp, GameManager.Instance.tempHpLevel);
         playerView1.UpdateCoinUI(playerModel.CurrentCoin);
         playerView1.UpdateCheeseUI(playerModel.CurrentCheese);
     }
@@ -77,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        input = context.ReadValue<float>();
+        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         Debug.Log("Jump 발동");
     }
 
