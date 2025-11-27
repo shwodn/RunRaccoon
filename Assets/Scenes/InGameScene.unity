@@ -1585,7 +1585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: a0c207a4ed112f043ad721e46b8cdd26, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4240,6 +4240,18 @@ PrefabInstance:
       propertyPath: currentCheeseText
       value: 
       objectReference: {fileID: 755381505}
+    - target: {fileID: 6664277471273184563, guid: 1b5fa320ed39420468f7e479d2c48fb8, type: 3}
+      propertyPath: m_Color.b
+      value: 0.98490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664277471273184563, guid: 1b5fa320ed39420468f7e479d2c48fb8, type: 3}
+      propertyPath: m_Color.g
+      value: 0.98490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664277471273184563, guid: 1b5fa320ed39420468f7e479d2c48fb8, type: 3}
+      propertyPath: m_Color.r
+      value: 0.98490566
+      objectReference: {fileID: 0}
     - target: {fileID: 6664277471273184563, guid: 1b5fa320ed39420468f7e479d2c48fb8, type: 3}
       propertyPath: m_SortingOrder
       value: 1

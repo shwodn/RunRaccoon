@@ -20,7 +20,9 @@ public class GameStartUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cheeseCost;
     [SerializeField] private TextMeshProUGUI currentCoinText;
 
+    public static GameStartUIManager ShopInstance { get; private set; }
 
+    private void Awake(){ ShopInstance = this; }
 
     // 구독 설정 및 초기화
     private void OnEnable() 
@@ -30,7 +32,11 @@ public class GameStartUIManager : MonoBehaviour
         Init();
     }
 
-    private void OnDestroy() { GameManager.Instance.testEvent -= UpdateShopUI; }
+    private void OnDestroy() 
+    { 
+        GameManager.Instance.testEvent -= UpdateShopUI; 
+        ShopInstance = null;
+    }
     private void Init()
     {
         // 캔버스 초기 설정

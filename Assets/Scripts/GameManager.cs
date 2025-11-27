@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
         {
             tempCurrentCoin += 10;
             testEvent?.Invoke();
+            GameStartUIManager.ShopInstance.UpdateShopUI();
             Debug.Log("돈 복사 완료");
         }
         // d키 누르면 데이터 초기화 ( 테스트용 )
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
             tempCheeseLevel = PlayerModel.StatLevel.Level1;
             tempCurrentCoin = 0;
             testEvent?.Invoke();
+            GameStartUIManager.ShopInstance.UpdateShopUI();
             Debug.Log("데이터 초기화 완료");
         }
     }
