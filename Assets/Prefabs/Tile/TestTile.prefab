@@ -3036,9 +3036,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2481629170251976322, guid: d547869857b568246ab7a6a647d7c9a3, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7558608525807830670, guid: d547869857b568246ab7a6a647d7c9a3, type: 3}
       propertyPath: m_Name
       value: WoodenThorns
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558608525807830670, guid: d547869857b568246ab7a6a647d7c9a3, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
